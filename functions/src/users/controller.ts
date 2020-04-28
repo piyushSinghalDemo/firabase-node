@@ -25,9 +25,12 @@ export async function create(req: Request, res: Response) {
 export async function all(req: Request, res: Response) {
   try {
     const listUsers = await admin.auth().listUsers();
+    console.log(listUsers);
+    
     const users = listUsers.users.map(mapUser);
     return res.status(200).send({ users });
   } catch (err) {
+    console.log(err)
     return handleError(res, err);
   }
 }

@@ -2,32 +2,15 @@ import { Application } from "express";
 import { all, get, patch, remove } from "./controller";
 
 import { isAuthenticated } from "../auth/authenticated";
-import { isAuthorized } from "../auth/authorized";
 
 export function routesConfig(app: Application) {
   //..
   // lists all users
-  app.get("/users", [
-    isAuthenticated,
-    isAuthorized({ hasRole: ["admin", "manager"] }),
-    all,
-  ]);
+  app.get("/users", [isAuthenticated, all]);
   // get :id user
-  app.get("/users/:id", [
-    isAuthenticated,
-    isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }),
-    get,
-  ]);
+  app.get("/users/:id", [isAuthenticated, get]);
   // updates :id user
-  app.patch("/users/:id", [
-    isAuthenticated,
-    isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }),
-    patch,
-  ]);
+  app.patch("/users/:id", [isAuthenticated, patch]);
   // deletes :id user
-  app.delete("/users/:id", [
-    isAuthenticated,
-    isAuthorized({ hasRole: ["admin", "manager"] }),
-    remove,
-  ]);
+  app.delete("/users/:id", [isAuthenticated, remove]);
 }
